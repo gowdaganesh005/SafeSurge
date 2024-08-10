@@ -1,5 +1,5 @@
 import { Router  } from "express"
-import { sendMessage } from "../Controllers/sms.controllers"
+import { sendMessage } from "../Controllers/sms.controllers.js"
 
 
 const Smsroutes=Router()
