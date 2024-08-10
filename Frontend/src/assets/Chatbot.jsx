@@ -4,14 +4,17 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Loading icon
 import { FaArrowRight, FaStop, FaMicrophone, FaVolumeUp } from "react-icons/fa"; // Icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentDots, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-function Chatbot() {
+function Chatbox() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState(""); // State to hold the full answer
   const [message, setMessage] = useState(""); // State to hold the message
   const [generatingAnswer, setGeneratingAnswer] = useState(false);
   const [displayedAnswer, setDisplayedAnswer] = useState(""); // State to hold the displayed answer
   const [typingInterval, setTypingInterval] = useState(null); // State to hold the typing interval
+  const [chatVisible, setChatVisible] = useState(false); // State to control chat bot visibility
   const chatBoxRef = useRef(null); // Ref for the chat box
 
   // TTS and STT references
@@ -131,96 +134,99 @@ function Chatbot() {
 
   return (
     <>
-      <div className="w-screen bg-gradient-to-br from-indigo-400 via-purple-500 to-pink-500 h-screen p-5 flex flex-col justify-center items-center">
-        <form
-          onSubmit={generateAnswer}
-          className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 text-center rounded-lg shadow-2xl bg-white py-8 px-6 transition-all duration-500 transform hover:scale-105"
-        >
-          <a
-            href="https://github.com/Vishesh-Pandey/chat-ai"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* Toggle Button */}
+      <button
+        onClick={() => setChatVisible(!chatVisible)}
+        className="fixed bottom-4 right-4 bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center z-50"
+      >
+        <FontAwesomeIcon icon={chatVisible ? faTimes : faCommentDots} />
+      </button>
+
+      {/* Chat Bot Interface */}
+      {chatVisible && (
+        <div className="fixed bottom-16 right-0 w-full md:w-80 lg:w-96 h-4/5 md:h-4/5 lg:h-4/5 bg-white rounded-t-lg shadow-lg p-4 max-w-xs md:max-w-lg lg:max-w-xl overflow-hidden">
+          <form
+            onSubmit={generateAnswer}
+            className="w-full text-center rounded-lg shadow-2xl bg-white py-8 px-6 overflow-auto"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-pink-600 mb-4 md:mb-6 animate-bounce drop-shadow-lg">
-              Disaster AI
-            </h1>
-          </a>
-          <textarea
-            required
-            className="border border-gray-300 rounded-xl w-full my-4 p-4 text-lg transition-all duration-300 focus:border-pink-600 focus:ring-2 focus:ring-pink-500 placeholder-pink-500 bg-pink-50 resize-none"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="How can I help you? I am Disaster AI"
-            rows="4"
-          ></textarea>
-          <div className="flex justify-center gap-4 mb-4">
-            <button
-              type="submit"
-              className={`bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 flex items-center justify-center ${
-                generatingAnswer ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={generatingAnswer}
-            >
+            <textarea
+              required
+              className="border border-gray-300 rounded-xl w-full my-4 p-4 text-lg transition-all duration-300 focus:border-pink-600 focus:ring-2 focus:ring-pink-500 placeholder-pink-500 bg-pink-50 resize-none"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="How can I help you? I am Disaster AI"
+              rows="4"
+            ></textarea>
+            <div className="flex flex-wrap justify-center gap-4 mb-4">
+              <button
+                type="submit"
+                className={`bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 flex items-center justify-center ${
+                  generatingAnswer ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={generatingAnswer}
+              >
+                {generatingAnswer && (
+                  <AiOutlineLoading3Quarters className="animate-spin mr-2" />
+                )}
+                <FaArrowRight className="ml-2" />
+              </button>
               {generatingAnswer && (
-                <AiOutlineLoading3Quarters className="animate-spin mr-2" />
+                <button
+                  type="button"
+                  onClick={stopTyping}
+                  className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-red-600 transition-all duration-300 flex items-center justify-center"
+                >
+                  <FaStop className="mr-2" />
+                  Stop
+                </button>
               )}
-              <FaArrowRight className="ml-2" />
-            </button>
-            {generatingAnswer && (
+            </div>
+            <div className="flex flex-wrap justify-center gap-4 mb-4">
               <button
                 type="button"
-                onClick={stopTyping}
+                onClick={startSpeechRecognition}
+                className="bg-green-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 flex items-center justify-center"
+              >
+                <FaMicrophone className="mr-2" />
+                Speak
+              </button>
+              <button
+                type="button"
+                onClick={() => speakText(displayedAnswer)}
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
+              >
+                <FaVolumeUp className="mr-2" />
+                Read Aloud
+              </button>
+              <button
+                type="button"
+                onClick={stopSpeech}
                 className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-red-600 transition-all duration-300 flex items-center justify-center"
               >
                 <FaStop className="mr-2" />
-                Stop
+                Stop Reading
               </button>
-            )}
-          </div>
-          <div className="flex justify-center gap-4 mb-4">
-            <button
-              type="button"
-              onClick={startSpeechRecognition}
-              className="bg-green-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 flex items-center justify-center"
-            >
-              <FaMicrophone className="mr-2" />
-              Speak
-            </button>
-            <button
-              type="button"
-              onClick={() => speakText(displayedAnswer)}
-              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
-            >
-              <FaVolumeUp className="mr-2" />
-              Read Aloud
-            </button>
-            <button
-              type="button"
-              onClick={stopSpeech}
-              className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-red-600 transition-all duration-300 flex items-center justify-center"
-            >
-              <FaStop className="mr-2" />
-              Stop Reading
-            </button>
-          </div>
-          {message && (
-            <div className="text-red-500 mt-4 text-sm font-medium">
-              {message}
             </div>
-          )}
-        </form>
-        <div
-          className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 text-left rounded-xl bg-white mt-6 shadow-2xl transition-all duration-500 transform hover:scale-105 p-6 relative max-h-80 overflow-y-auto"
-          ref={chatBoxRef}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-200 via-red-200 to-pink-200 opacity-30 rounded-xl"></div>
-          <div className="relative z-10 p-6 text-lg text-gray-700 break-words">
-            <ReactMarkdown>{displayedAnswer}</ReactMarkdown>
+            {message && (
+              <div className="text-red-500 mt-4 text-sm font-medium">
+                {message}
+              </div>
+            )}
+          </form>
+          <div
+            className="w-full text-left rounded-xl bg-white mt-6 shadow-2xl transition-all duration-500 transform hover:scale-105 p-6 relative overflow-y-auto"
+            style={{ maxHeight: 'calc(100% - 200px)' }} // Adjusted max-height for better scrolling
+            ref={chatBoxRef}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-200 via-red-200 to-pink-200 opacity-30 rounded-xl"></div>
+            <div className="relative z-10 text-lg text-gray-700 break-words">
+              <ReactMarkdown>{displayedAnswer}</ReactMarkdown>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
 
-export default Chatbot;
+export default Chatbox;
