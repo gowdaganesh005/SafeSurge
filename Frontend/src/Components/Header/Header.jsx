@@ -1,22 +1,22 @@
 import { Link, NavLink } from "react-router-dom"
-// import { store } from "../../store/store"
+import { store } from "../../store/store"
 import { useSelector } from "react-redux"
 import { useState } from "react"
 import { toast } from "react-toastify"
 import axios from "axios"
-// import { useDispatch } from "react-redux"
-// import { logout,clearState } from "../../Features/userSlicer"
+import { useDispatch } from "react-redux"
+import { logout,clearState } from "../../Features/userSlicer"
 
 
 function Header(){
-//   const axios1 = axios.create({
-//     baseURL: 'http://localhost:8000/api/v1',
-//     withCredentials: true,
-//   });
+  const axios1 = axios.create({
+    baseURL: 'http://localhost:8000/api/v1',
+    withCredentials: true,
+  });
 
-//   const dispatch=useDispatch()
+  const dispatch=useDispatch()
 
-//   const isLogin=useSelector(state=>({ isLoggedIn: state.auth.status }))
+  const isLogin=useSelector(state=>({ isLoggedIn: state.auth.status }))
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -24,33 +24,33 @@ function Header(){
   };
 
 
-//   const [errors,setError]=useState("")
+  const [errors,setError]=useState("")
 
 
-//   async function   handleLogout(){
-//     try {
+  async function   handleLogout(){
+    try {
 
-//       await axios1.post("http://localhost:8000/api/v1/users/logout",{},{headers:{
-//         "Content-Type": "application/json",
-//       }})
-//       dispatch(logout())
-//       dispatch(clearState())
+      await axios1.post("http://localhost:8000/api/v1/users/logout",{},{headers:{
+        "Content-Type": "application/json",
+      }})
+      dispatch(logout())
+      dispatch(clearState())
 
-//       toast.success("Logged out SuccessFully ")
+      toast.success("Logged out SuccessFully ")
 
       
-//     } catch (error) {
-//       if (error.response) {
+    } catch (error) {
+      if (error.response) {
               
-//         const errorMessage = error.response.data.message || "An error occurred";
-//         setError(errorMessage);
-//       } else {
-//         setError("Network error or server is down.");
-//       }
-//       toast.error(errors)
-//     }
+        const errorMessage = error.response.data.message || "An error occurred";
+        setError(errorMessage);
+      } else {
+        setError("Network error or server is down.");
+      }
+      toast.error(errors)
+    }
 
-//   }
+  }
   
     return (
         <>
