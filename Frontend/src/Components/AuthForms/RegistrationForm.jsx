@@ -18,35 +18,10 @@ function RegisterForm(){
         const {register,handleSubmit,watch,formState:{errors}}=useForm()
     const [error,setError]=useState("")
 
-    const [address,setAddress]=useState(null)
-
+    
     const dispatch=useDispatch()
 
-    useEffect(() => {
-        
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const { latitude, longitude } = position.coords;
-                    try {
-                        const response = await axios.get(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=66b783797c063010411634lfx2342f7`);
-                        if (response.length > 0) {
-                            setAddress(response.address);
-                        }
-                    } catch (error) {
-                        console.error(error);
-                        setError("Unable to retrieve address.");
-                    }
-                },
-                (error) => {
-                    setError(error.message);
-                }
-            );
-        } else {
-            setError("Geolocation is not supported by this browser.");
-        }
-    }, []);
-
+   
 
     const CreateUser=async(data)=>{
         console.log("sending data")
@@ -59,7 +34,7 @@ function RegisterForm(){
             formData.append("email",data.email)
             formData.append("password",data.password)
             formData.append("avatar",data.avatar[0])
-            formData.append("address",address)
+            
             console.log(formData)
 
             const response=await axios.post("http://localhost:8000/api/v1/users/register",formData,{

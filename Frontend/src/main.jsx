@@ -12,6 +12,8 @@ import RegisterForm from './Components/AuthForms/RegistrationForm.jsx'
 import { Provider } from 'react-redux'
 import { store,persistor } from './store/store.js'
 import { PersistGate } from 'redux-persist/integration/react'
+import LoginForm from './Components/AuthForms/LoginForm.jsx'
+import ChangePasswordForm from './Components/AuthForms/ChangePassword.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -19,7 +21,8 @@ const router=createBrowserRouter(
       <Route path=''  element={<Home/>}/>
       <Route path='/danger-form'  element={<Dangerform/>}/>
       <Route path='/register'  element={<RegisterForm/>}/>
-
+      <Route path='/login'  element={<LoginForm/>}/>
+      <Route path='/change-password'  element={<ChangePasswordForm/>}/>
     </Route>
 
   )
