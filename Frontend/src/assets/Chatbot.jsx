@@ -14,7 +14,6 @@ function Chatbot() {
   const [typingInterval, setTypingInterval] = useState(null); 
   const chatBoxRef = useRef(null); 
 
-  // TTS and STT references
   const speechSynthesisRef = useRef(window.speechSynthesis);
   const recognitionRef = useRef(null);
   const [voice, setVoice] = useState(null);
@@ -26,7 +25,6 @@ function Chatbot() {
       setVoice(femaleVoice || voices[0]); 
     };
 
-    
     loadVoices();
 
     speechSynthesisRef.current.onvoiceschanged = loadVoices;
@@ -48,17 +46,14 @@ function Chatbot() {
         },
       });
 
-      
       const fullAnswer = response.data.candidates[0].content.parts[0].text;
 
       let index = 0;
 
-     
       if (typingInterval) {
         clearInterval(typingInterval);
       }
 
-      
       const interval = setInterval(() => {
         setDisplayedAnswer((prev) => prev + fullAnswer[index]);
         index += 1;
@@ -66,7 +61,6 @@ function Chatbot() {
           clearInterval(interval);
           setAnswer(fullAnswer); 
           setGeneratingAnswer(false);
-          
           speakText(fullAnswer);
         }
       }, 10); 
@@ -121,7 +115,6 @@ function Chatbot() {
     recognition.start();
   }
 
-  
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -211,8 +204,28 @@ function Chatbot() {
         <div
           className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 text-left rounded-xl bg-white mt-6 shadow-2xl transition-all duration-500 transform hover:scale-105 p-6 relative max-h-80 overflow-y-auto"
           ref={chatBoxRef}
+          style={{
+            position: 'relative',
+            padding: '1.5rem',
+            backgroundColor: '#fff',
+            borderRadius: '0.5rem',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-200 via-red-200 to-pink-200 opacity-30 rounded-xl"></div>
+          <div
+            style={{
+              content: '""',
+              position: 'absolute',
+              top: '50%',
+              left: '-1rem',
+              width: 0,
+              height: 0,
+              borderTop: '1rem solid transparent',
+              borderBottom: '1rem solid transparent',
+              borderRight: '1rem solid #fff', // Match this color with your chatbox background
+              transform: 'translateY(-50%)',
+            }}
+          ></div>
           <div className="relative z-10 p-6 text-lg text-gray-700 break-words">
             <ReactMarkdown>{displayedAnswer}</ReactMarkdown>
           </div>
@@ -223,3 +236,4 @@ function Chatbot() {
 }
 
 export default Chatbot;
+
