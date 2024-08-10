@@ -1,5 +1,5 @@
 import twilio from "twilio"
-import ApiResponse from "../utils/ApiResponse.js"
+import {ApiResponse} from "../utils/ApiResponse.js"
 import { ApiError } from "../utils/ApiError.js"
 
 
