@@ -22,7 +22,7 @@ userRouter.route("/register").post(
 
 userRouter.route("/login").post( loginUser)
 
-userRouter.route("/refreshToken").post(refreshAccessTokens)
+
 userRouter.route("/logout").post(verifyJWT,logoutUser)
 userRouter.route("/change-password").post(verifyJWT,changeCurrentPassword)
 
