@@ -1,10 +1,48 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 
 function Dangerform(){
     const { register, handleSubmit, setValue } = useForm();
     const [locationError, setLocationError] = useState(null);
+    const [error,setError]=useState("")
+    const navigate=useNavigate()
+
+
+    const sendmessage=async(data)=>{
+      console.log("Sending message")
+
+      try {
+        const formData=new FormData()
+        formData.append("name",data.name)
+        formData.append("phonenumber",data.phonenumber)
+        formData.append("latitude",data.latitude)
+        formData.append("longitude",data.longitude)
+        formData.append("details",data.details )
+        
+
+        const response=await axios.post("http://localhost:8000/api/v1/esms/send-message",formData,{headers:{
+          "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data)
+    toast.success("SuccessFul")
+    navigate("/")
+    } catch (error) {
+         
+      if (error.response) {
+              
+        const errorMessage = error.response.data.message || "An error occurred";
+        setError(errorMessage);
+      } else {
+        setError("Network error or server is down.");
+      }
+        
+      }
+
+
+    }
 
 
     useEffect(() => {
@@ -27,7 +65,7 @@ function Dangerform(){
     
     return (
         
-
+<form onSubmit={handleSubmit(sendmessage)}>
 <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
   <div class="relative py-3 sm:max-w-xl sm:mx-auto">
     <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
@@ -36,6 +74,7 @@ function Dangerform(){
           <div class="h-14 w-14 bg-yellow-200 rounded-full flex flex-shrink-0 justify-center items-center text-yellow-500 text-2xl font-mono">i</div>
           <div class="block pl-2 font-semibold text-xl self-start text-gray-700">
             <h2 class="leading-relaxed">Send an Emergency Message</h2>
+            {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
             <p class="text-sm text-gray-500 font-normal leading-relaxed">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
           </div>
         </div>
@@ -43,11 +82,12 @@ function Dangerform(){
           <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
             <div class="flex flex-col">
               <label class="leading-loose">Enter Name</label>
-              <input type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" />
+              <input type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" 
+              {...register("name")}/>
             </div>
             <div class="flex flex-col">
               <label class="leading-loose">Enter Active Phone Number</label>
-              <input type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" {...register("phoneNumber")}/>
+              <input type="number" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" {...register("phonenumber")}/>
             </div>
             <div>
             <label class="leading-loose">Emergency Need Help now! </label>
@@ -91,6 +131,7 @@ function Dangerform(){
     </div>
   </div>
 </div>
+</form>
     )
 }
 
