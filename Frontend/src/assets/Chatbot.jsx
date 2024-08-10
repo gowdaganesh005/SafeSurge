@@ -2,17 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Loading icon
-import { FaArrowRight, FaStop, FaMicrophone, FaVolumeUp } from "react-icons/fa"; // Icons
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; 
+import { FaArrowRight, FaStop, FaMicrophone, FaVolumeUp } from "react-icons/fa"; 
 
 function Chatbot() {
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState(""); // State to hold the full answer
-  const [message, setMessage] = useState(""); // State to hold the message
+  const [answer, setAnswer] = useState(""); 
+  const [message, setMessage] = useState(""); 
   const [generatingAnswer, setGeneratingAnswer] = useState(false);
-  const [displayedAnswer, setDisplayedAnswer] = useState(""); // State to hold the displayed answer
-  const [typingInterval, setTypingInterval] = useState(null); // State to hold the typing interval
-  const chatBoxRef = useRef(null); // Ref for the chat box
+  const [displayedAnswer, setDisplayedAnswer] = useState(""); 
+  const [typingInterval, setTypingInterval] = useState(null); 
+  const chatBoxRef = useRef(null); 
 
   // TTS and STT references
   const speechSynthesisRef = useRef(window.speechSynthesis);
@@ -23,13 +23,12 @@ function Chatbot() {
     const loadVoices = () => {
       const voices = speechSynthesisRef.current.getVoices();
       const femaleVoice = voices.find(voice => voice.name.includes("Female") || voice.gender === "female");
-      setVoice(femaleVoice || voices[0]); // Fallback to the first available voice
+      setVoice(femaleVoice || voices[0]); 
     };
 
-    // Load voices immediately if they are already available
+    
     loadVoices();
 
-    // Load voices again when voiceschanged event is triggered
     speechSynthesisRef.current.onvoiceschanged = loadVoices;
   }, []);
 
@@ -37,8 +36,8 @@ function Chatbot() {
     setGeneratingAnswer(true);
     e.preventDefault();
 
-    setDisplayedAnswer(""); // Clear the displayed answer
-    setMessage(""); // Clear the message when generating the answer
+    setDisplayedAnswer(""); 
+    setMessage(""); 
 
     try {
       const response = await axios({
@@ -49,34 +48,34 @@ function Chatbot() {
         },
       });
 
-      // Get the full answer text
+      
       const fullAnswer = response.data.candidates[0].content.parts[0].text;
 
       let index = 0;
 
-      // Clear previous interval if it exists
+     
       if (typingInterval) {
         clearInterval(typingInterval);
       }
 
-      // Start typing effect
+      
       const interval = setInterval(() => {
         setDisplayedAnswer((prev) => prev + fullAnswer[index]);
         index += 1;
         if (index >= fullAnswer.length) {
           clearInterval(interval);
-          setAnswer(fullAnswer); // Set full answer to the answer state after typing effect
+          setAnswer(fullAnswer); 
           setGeneratingAnswer(false);
-          // Optionally read the answer out loud
+          
           speakText(fullAnswer);
         }
-      }, 30); // Adjust typing speed by changing the delay (in ms)
+      }, 10); 
 
-      setTypingInterval(interval); // Save the interval ID
+      setTypingInterval(interval); 
 
     } catch (error) {
       console.log(error);
-      setDisplayedAnswer(""); // Clear the displayed answer
+      setDisplayedAnswer(""); 
       setAnswer("Sorry - Something went wrong. Please try again!");
       setGeneratingAnswer(false);
     }
@@ -86,7 +85,7 @@ function Chatbot() {
     if (typingInterval) {
       clearInterval(typingInterval);
       setTypingInterval(null);
-      setGeneratingAnswer(false); // Stop generating the answer
+      setGeneratingAnswer(false); 
     }
   }
 
@@ -101,7 +100,7 @@ function Chatbot() {
 
   function stopSpeech() {
     if (speechSynthesisRef.current) {
-      speechSynthesisRef.current.cancel(); // Stop the speech synthesis
+      speechSynthesisRef.current.cancel(); 
     }
   }
 
@@ -122,7 +121,7 @@ function Chatbot() {
     recognition.start();
   }
 
-  // Auto-scroll to the bottom when the displayedAnswer changes
+  
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
