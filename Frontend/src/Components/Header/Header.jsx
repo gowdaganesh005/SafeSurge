@@ -16,7 +16,7 @@ function Header(){
 
   const dispatch=useDispatch()
 
-  const isLogin=useSelector(state=>({ isLoggedIn: state.auth.status }))
+  const isLogin=useSelector(state=> state.auth.status )
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -103,7 +103,7 @@ function Header(){
 
         <div className="flex items-center gap-4">
           
-          {true? (<div className="flex flex-row  gap-2 sm:flex-row sm:gap-4">
+          {!isLogin? (<div className="flex flex-row  gap-2 sm:flex-row sm:gap-4">
             <Link
               className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
               to="/login"
