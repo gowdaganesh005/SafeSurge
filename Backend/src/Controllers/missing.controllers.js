@@ -72,8 +72,16 @@ const deleteReport=async (req,res)=>{
     )
 
 }
+const getAllMissingReports = async (req, res) => {
+    try {
+      const reports = await Missing.find(); // Fetch all reports
+      res.status(200).json(reports);
+    } catch (error) {
+      res.status(500).json({ message: "Server error." });
+    }
+  }
 
 
 export {
-    registerMissing,deleteReport
+    registerMissing,deleteReport,getAllMissingReports,
 }

@@ -5,6 +5,7 @@ import Header from './Components/Header/Header'
 import Footer from './Components/Footer/Footer'
 import { Outlet } from 'react-router-dom'
 import DangerButton from './Components/Danger/DangerButton'
+import MissingList from './Components/MissingBoard/MissingList.jsx'
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
    <Header/>
    <Outlet />
    <DangerButton />
+   
    <Footer />
    </>
   )

@@ -7,19 +7,13 @@ const missingSchema = new Schema({
     name:{
         type: String ,
         required: true ,
-        unique: true ,
-        lowercase: true ,
-        trim: true,
-        index: true
+        
 
     },
     age:{
         type: String ,
         required: true ,
-        unique: true ,
-        lowercase: true ,
-        trim: true,
-        index: true
+        
         
 
     },
@@ -31,10 +25,6 @@ const missingSchema = new Schema({
     phoneNumber:{
         type: String ,
         required: true ,
-        unique: true ,
-        lowercase: true ,
-        trim: true,
-        index: true
         
 
     },

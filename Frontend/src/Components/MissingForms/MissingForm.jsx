@@ -27,10 +27,10 @@ function MissingForm(){
 
         try{
             const formData=new FormData();
-            formData.append("name",data.fullname)
-            formData.append("age",data.username)
-            formData.append("gender",data.email)
-            formData.append("address",data.password)
+            formData.append("name",data.name)
+            formData.append("age",data.age)
+            formData.append("gender",data.gender)
+            formData.append("address",data.address)
             formData.append("avatar",data.avatar[0])
             formData.append("phoneNumber", data.phoneNumber);
             console.log(formData)
