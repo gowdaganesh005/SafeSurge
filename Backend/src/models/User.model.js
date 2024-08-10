@@ -32,23 +32,7 @@ const userSchema = new Schema({
         type: String,
         
     },
-    location:{
-        type:{
-        amenity: String,
-        road: String,
-        neighbourhood: String,
-        suburb: String,
-        city: String,
-        county: String,
-        state_district: String,
-        state: String,
-        
-        postcode:String,
-        country: String,
-        country_code: String
-
-        },
-    },
+   
     password:{
         type:String,
         required: [true,'Password is Required']
@@ -56,14 +40,11 @@ const userSchema = new Schema({
     refreshToken:{
         type: String
     },
-    watchHistory:{
+    
+    missingReports:{
         type: Schema.Types.ObjectId,
-        ref: "Video"
+        ref: "Missing"
     },
-    posts:{
-        type: Schema.Types.ObjectId,
-        ref: "Post"
-    }
 },
 {
     timestamps:true

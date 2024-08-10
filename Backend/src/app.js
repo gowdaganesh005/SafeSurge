@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import { errorHandler } from "./utils/ErrorHandler.js"
 import Smsroutes from "./Routes/SMSroutes.js"
 import userRouter from "./Routes/user.routes.js"
+import missingRouter from "./Routes/missing.routes.js"
 
 const app=express()
 
@@ -21,6 +22,7 @@ app.use(cookieParser())
 
 app.use("/api/v1/esms",Smsroutes)
 app.use("/api/v1/users",userRouter)
+app.use("/api/v1/missing",missingRouter)
 
 
 

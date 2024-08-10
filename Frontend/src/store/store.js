@@ -18,7 +18,8 @@ export const store=configureStore({
     reducer:{
         auth:  persistedReducer
 
-    }
+    },
+    
 });
 
 store.subscribe(() => {
