@@ -33,7 +33,21 @@ const userSchema = new Schema({
         
     },
     location:{
-        type: String,
+        type:{
+        amenity: String,
+        road: String,
+        neighbourhood: String,
+        suburb: String,
+        city: String,
+        county: String,
+        state_district: String,
+        state: String,
+        
+        postcode:String,
+        country: String,
+        country_code: String
+
+        },
     },
     password:{
         type:String,

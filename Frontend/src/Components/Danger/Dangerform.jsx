@@ -98,7 +98,7 @@ function Dangerform(){
             </div>
             <div className="flex flex-col">
               <label className="leading-loose">Enter Active Phone Number</label>
-              <input type="number" className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" {...register("phonenumber")}/>
+              <input type="text" className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" {...register("phonenumber")}/>
             </div>
             <div>
             <label className="leading-loose">Emergency Need Help now! </label>
