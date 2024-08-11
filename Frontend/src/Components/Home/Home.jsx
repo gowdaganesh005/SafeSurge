@@ -19,7 +19,7 @@ function Home(){
       </h1>
 
       <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed text-2xl text-blue-400">
-        Register Today to File A Missing Report 
+        Register  to File A Missing Report 
       </p>
 
       <div className="mt-8 flex flex-wrap justify-center gap-4">

@@ -108,7 +108,7 @@ function Header(){
             <button 
               onClick={handleChatbot}
               class=" bg-blue-500 text-white font-semibold p-3 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center z-50 mx-2">
-              Chat Bot
+             Chat bot  
           </button>
 
 </div> 

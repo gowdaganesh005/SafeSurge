@@ -86,7 +86,7 @@ function Dangerform(){
           <div className="block pl-2 font-semibold text-xl self-start text-gray-700">
             <h2 className="leading-relaxed">Send an Emergency Message</h2>
             {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-            <p className="text-sm text-gray-500 font-normal leading-relaxed">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+            <p className="text-sm text-gray-500 font-normal leading-relaxed">It will initiate a Automatic message to rescue Team.</p>
           </div>
         </div>
         <div className="divide-y divide-gray-200">

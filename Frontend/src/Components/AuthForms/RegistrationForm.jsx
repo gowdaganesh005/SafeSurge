@@ -112,7 +112,7 @@ function RegisterForm(){
           
 
         <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white">
-          Welcome to Squid 🦑
+          Register 
         </h1>
 
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
@@ -262,7 +262,7 @@ function RegisterForm(){
 
             <p className="mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400">
               Already have an account?
-              <a href="#" className="text-gray-700 underline dark:text-gray-200">Log in</a>.
+              <Link to="/login" className="text-gray-700 underline dark:text-gray-200">Log in</Link>.
             </p>
           </div>
         </form>
