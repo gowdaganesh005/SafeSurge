@@ -1,23 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import "./App.css";
+
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Loading icon
-import { FaArrowRight, FaStop, FaMicrophone, FaVolumeUp } from "react-icons/fa"; // Icons
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaArrowRight, FaStop, FaMicrophone, FaVolumeUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function Chatbox() {
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState(""); // State to hold the full answer
-  const [message, setMessage] = useState(""); // State to hold the message
+  const [answer, setAnswer] = useState("");
+  const [message, setMessage] = useState("");
   const [generatingAnswer, setGeneratingAnswer] = useState(false);
-  const [displayedAnswer, setDisplayedAnswer] = useState(""); // State to hold the displayed answer
-  const [typingInterval, setTypingInterval] = useState(null); // State to hold the typing interval
-  const [chatVisible, setChatVisible] = useState(false); // State to control chat bot visibility
-  const chatBoxRef = useRef(null); // Ref for the chat box
+  const [displayedAnswer, setDisplayedAnswer] = useState("");
+  const [typingInterval, setTypingInterval] = useState(null);
+  const [chatVisible, setChatVisible] = useState(false);
+  const chatBoxRef = useRef(null);
 
-  // TTS and STT references
   const speechSynthesisRef = useRef(window.speechSynthesis);
   const recognitionRef = useRef(null);
   const [voice, setVoice] = useState(null);
@@ -26,13 +25,10 @@ function Chatbox() {
     const loadVoices = () => {
       const voices = speechSynthesisRef.current.getVoices();
       const femaleVoice = voices.find(voice => voice.name.includes("Female") || voice.gender === "female");
-      setVoice(femaleVoice || voices[0]); // Fallback to the first available voice
+      setVoice(femaleVoice || voices[0]);
     };
 
-    // Load voices immediately if they are already available
     loadVoices();
-
-    // Load voices again when voiceschanged event is triggered
     speechSynthesisRef.current.onvoiceschanged = loadVoices;
   }, []);
 
@@ -40,46 +36,42 @@ function Chatbox() {
     setGeneratingAnswer(true);
     e.preventDefault();
 
-    setDisplayedAnswer(""); // Clear the displayed answer
-    setMessage(""); // Clear the message when generating the answer
+    setDisplayedAnswer("");
+    setMessage("");
 
     try {
       const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${import.meta.env.VITE_API_GENERATIVE_LANGUAGE_CLIENT}`,
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyD8G8pHW-vzybm3mwC3iWOlWRauPrQo8Bk`,
         method: "post",
         data: {
           contents: [{ parts: [{ text: question }] }],
         },
       });
 
-      // Get the full answer text
       const fullAnswer = response.data.candidates[0].content.parts[0].text;
 
       let index = 0;
 
-      // Clear previous interval if it exists
       if (typingInterval) {
         clearInterval(typingInterval);
       }
 
-      // Start typing effect
       const interval = setInterval(() => {
         setDisplayedAnswer((prev) => prev + fullAnswer[index]);
         index += 1;
         if (index >= fullAnswer.length) {
           clearInterval(interval);
-          setAnswer(fullAnswer); // Set full answer to the answer state after typing effect
+          setAnswer(fullAnswer);
           setGeneratingAnswer(false);
-          // Optionally read the answer out loud
           speakText(fullAnswer);
         }
-      }, 30); // Adjust typing speed by changing the delay (in ms)
+      }, 30);
 
-      setTypingInterval(interval); // Save the interval ID
+      setTypingInterval(interval);
 
     } catch (error) {
       console.log(error);
-      setDisplayedAnswer(""); // Clear the displayed answer
+      setDisplayedAnswer("");
       setAnswer("Sorry - Something went wrong. Please try again!");
       setGeneratingAnswer(false);
     }
@@ -89,7 +81,7 @@ function Chatbox() {
     if (typingInterval) {
       clearInterval(typingInterval);
       setTypingInterval(null);
-      setGeneratingAnswer(false); // Stop generating the answer
+      setGeneratingAnswer(false);
     }
   }
 
@@ -104,7 +96,7 @@ function Chatbox() {
 
   function stopSpeech() {
     if (speechSynthesisRef.current) {
-      speechSynthesisRef.current.cancel(); // Stop the speech synthesis
+      speechSynthesisRef.current.cancel();
     }
   }
 
@@ -125,7 +117,6 @@ function Chatbox() {
     recognition.start();
   }
 
-  // Auto-scroll to the bottom when the displayedAnswer changes
   useEffect(() => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -134,7 +125,6 @@ function Chatbox() {
 
   return (
     <>
-      {/* Toggle Button */}
       <button
         onClick={() => setChatVisible(!chatVisible)}
         className="fixed bottom-4 right-4 bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center z-50"
@@ -142,7 +132,6 @@ function Chatbox() {
         <FontAwesomeIcon icon={chatVisible ? faTimes : faCommentDots} />
       </button>
 
-      {/* Chat Bot Interface */}
       {chatVisible && (
         <div className="fixed bottom-16 right-0 w-full md:w-80 lg:w-96 h-4/5 md:h-4/5 lg:h-4/5 bg-white rounded-t-lg shadow-lg p-4 max-w-xs md:max-w-lg lg:max-w-xl overflow-hidden">
           <form
@@ -215,7 +204,7 @@ function Chatbox() {
           </form>
           <div
             className="w-full text-left rounded-xl bg-white mt-6 shadow-2xl transition-all duration-500 transform hover:scale-105 p-6 relative overflow-y-auto"
-            style={{ maxHeight: 'calc(100% - 200px)' }} // Adjusted max-height for better scrolling
+            style={{ maxHeight: 'calc(100% - 200px)' }}
             ref={chatBoxRef}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-200 via-red-200 to-pink-200 opacity-30 rounded-xl"></div>

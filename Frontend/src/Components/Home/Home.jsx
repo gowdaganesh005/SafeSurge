@@ -1,4 +1,6 @@
+import DisasterOverview from "../../assets/DisasterOverview"
 import MissingList from "../MissingBoard/MissingList"
+import { Link } from "react-router-dom"
 
 
 function Home(){
@@ -16,29 +18,24 @@ function Home(){
         <span className="sm:block"> Save Yourself & Your Loved Ones. </span>
       </h1>
 
-      <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo tenetur fuga ducimus
-        numquam ea!
+      <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed text-2xl text-blue-400">
+        Register Today to File A Missing Report 
       </p>
 
       <div className="mt-8 flex flex-wrap justify-center gap-4">
-        <a
+        <Link
           className="block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
-          href="#"
+          to='/register'
         >
           Get Started
-        </a>
+        </Link>
 
-        <a
-          className="block w-full rounded border border-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-          href="#"
-        >
-          Learn More
-        </a>
+        
       </div>
     </div>
   </div>
 </section>
+<DisasterOverview/>
 <MissingList />
  </>
     )

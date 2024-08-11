@@ -1,10 +1,10 @@
-import { ArrowUpRight } from 'lucide-react'
+
 import React from 'react'
 
 export function Card({name,age,address,img,phoneNumber,gender}) {
   return (
-    <div className="flex max-w-2xl flex-col items-center rounded-md border md:flex-row">
-      <div className="h-full w-full md:h-[200px] md:w-[300px]">
+    <div className="flex max-w-xl flex-col items-center rounded-md border md:flex-row p-y-5">
+      <div className="h-full w-full md:h-[200px] md:w-[300px] justify-center " >
         <img
           src={img}
           alt="Laptop"
@@ -14,7 +14,7 @@ export function Card({name,age,address,img,phoneNumber,gender}) {
       <div>
         <div className="p-4">
           <h1 className="inline-flex items-center text-lg font-semibold">
-            Missing <ArrowUpRight className="ml-2 h-4 w-4" />
+            Missing 
           </h1>
           <p className="mt-3 text-sm text-gray-600">
             <div><b>Name :</b>{name}</div>
@@ -25,15 +25,8 @@ export function Card({name,age,address,img,phoneNumber,gender}) {
           </p>
           
           <div className="mt-3 flex items-center space-x-2">
-            <img
-              className="inline-block h-8 w-8 rounded-full"
-              src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
-              alt="Dan_Abromov"
-            />
-            <span className="flex flex-col">
-              <span className="text-[10px] font-medium text-gray-900">Dan Abromov</span>
-              <span className="text-[8px] font-medium text-gray-500">@dan_abromov</span>
-            </span>
+           
+           
           </div>
         </div>
       </div>

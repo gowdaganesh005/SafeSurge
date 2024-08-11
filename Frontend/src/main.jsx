@@ -15,6 +15,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import LoginForm from './Components/AuthForms/LoginForm.jsx'
 import ChangePasswordForm from './Components/AuthForms/ChangePassword.jsx'
 import MissingForm from './Components/MissingForms/MissingForm.jsx'
+import Chatbox from './Components/Chatbot.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,8 @@ const router=createBrowserRouter(
       <Route path='/login'  element={<LoginForm/>}/>
       <Route path='/change-password'  element={<ChangePasswordForm/>}/>
       <Route path='/missing-form'  element={<MissingForm/>}/>
+      <Route path='/chatbot'  element={<Chatbox/>}/>
+    
     </Route>
 
   )
