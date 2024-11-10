@@ -38,7 +38,7 @@ function RegisterForm(){
             
             console.log(formData)
 
-            const response=await axios.post("https://52.2.25.130:8000/api/v1/users/register",formData,{
+            const response=await axios.post("http://52.2.25.130:8000/api/v1/users/register",formData,{
                 headers:{
                     "Content-Type": "multipart/form-data",
                 },

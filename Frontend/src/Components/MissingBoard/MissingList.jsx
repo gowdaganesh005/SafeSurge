@@ -10,7 +10,7 @@ function MissingList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://52.2.25.130:8000/api/v1/missing/getall'); 
+        const response = await axios.get('http://52.2.25.130:8000/api/v1/missing/getall'); 
         setMissingReports(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom"
 
 function Header(){
   const axios1 = axios.create({
-    baseURL: 'https://52.2.25.130:8000/api/v1',
+    baseURL: 'http://52.2.25.130:8000/api/v1',
     withCredentials: true,
   });
 
@@ -31,7 +31,7 @@ function Header(){
   async function   handleLogout(){
     try {
 
-      await axios1.post("https://52.2.25.130:8000/api/v1/users/logout",{},{headers:{
+      await axios1.post("http://52.2.25.130:8000/api/v1/users/logout",{},{headers:{
         "Content-Type": "application/json",
       }})
       dispatch(logout())
