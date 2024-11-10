@@ -28,7 +28,7 @@ function Dangerform(){
         
         
 
-        const response=await axios.post("http://localhost:8000/api/v1/esms/send-message",formData,{headers:{
+        const response=await axios.post("https://52.2.25.130:8000/api/v1/esms/send-message",formData,{headers:{
           "Content-Type": "application/json",
       },
       withCredentials: true

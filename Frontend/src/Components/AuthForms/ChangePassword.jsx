@@ -27,7 +27,7 @@ function ChangePasswordForm(){
               password: data.password
             }
 
-            const response=await axios.post("http://localhost:8000/api/v1/users/login",form,{
+            const response=await axios.post("https://52.2.25.130:8000/api/v1/users/login",form,{
                 headers:{
                     "Content-Type": "application/json",
                 },
